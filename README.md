@@ -8,8 +8,11 @@ employee records at the company.
 1. Clone the directory
 2. Run the command cd crud-challenge
 4. Run the command 'node app.js'
-5. Open the web browser and navigate to http://localhost:8000/
-6. Play around with the features!
+6. Open the web browser and navigate to http://localhost:8000/
+      - When you run the node app.js command, it should tell you the port that it is listening on is 8000, but that can be changed by you in the app.js file (port 
+      variable)
+8. Play around with the features!
+
 
 ## Technical Description
 
