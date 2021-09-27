@@ -19,13 +19,12 @@ Tech Stack
 3. ejs
 4. ReactJS
 
+For the front end I used a basic Bootstrap template and wrote expressJS code to allow me to include dynamic and changing data (for example employee records) which
+are consistently changing
+
 **Backend**
 1. NodeJs
 2. MongoDB
-
-
-For the front end I used a basic Bootstrap template and wrote expressJS code to allow me to include dynamic and changing data (for example employee records) which
-are consistently changing
 
 For the backend, I wanted to implement a NoSQL database and therefore chose MongoDB. I chose it because in the future I can see this being used for companies with
 many emplopyees. This means my backend solution needs to be scalable. MongoDB provides that as an advantage. Also the easy JSON like structure of store documents 
