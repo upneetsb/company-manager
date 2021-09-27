@@ -6,9 +6,10 @@ employee records at the company.
 ## Install Instructions
 
 1. Clone the directory
-2. Run the command 'node app.js'
-3. Open the web browser and navigate to http://localhost:8000/
-4. Play around with the features!
+2. Run the command cd crud-challenge
+4. Run the command 'node app.js'
+5. Open the web browser and navigate to http://localhost:8000/
+6. Play around with the features!
 
 ## Technical Description
 
