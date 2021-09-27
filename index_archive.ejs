@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style.css">
+    <title>Employee Roster</title>
+</head>
+
+<body>
+    <h1 class="text-center">Employee Roster</h1>
+    <div class="container">
+        <button class="btn btn-success create">New Employee</button>
+        <br>
+    </div>
+
+    <div id="card-container"></div>
+    <div id="employees-list">
+        <div class="card bio-card">
+            <div class="container">
+                <!-- counter is created to give each record a specific identifier -->
+                <% counter = 0 %>
+                <!-- Now we are going to traverse through the records and display them
+                one at a time -->
+                <% if (employees.length > 0) { %>
+                <% employees.forEach( employee => { %>
+                <h3><%= employee.name%></h3>
+                <p>Title: <%= employee.title%></p>
+                <% if (employee.image) { %>
+                <img style="border-radius: 50%; max-height: 10em; max-width: 10em;" src="<%=employee.image %>" />
+                <% } %>
+                <p>Biography: <%= employee.bio%></p>
+                <p><button class="btn btn-success likes" id="upvotes-<%=counter%>" userId="<%= employee._id %>"
+                        onclick="upvote(<%=counter%>)">Upvote
+                        <%= employee.upvotes %></button>
+                    <button class="btn btn-danger dislikes" id="downvotes-<%=counter%>" userId="<%= employee._id %>"
+                        onclick="downvote(<%=counter%>)">Downvote <%= employee.downvotes %></button>
+                    <button class="btn btn-danger delete" id="delete-<%=counter%>" userId="<%= employee._id %>"
+                        onclick="delete_user(<%=counter%>)">Delete Record</button>
+                </p>
+                <% counter = counter + 1 %>
+                <% }) %>
+                <% } else { %>
+                <p>There is no data to display...</p>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    // Both of these are used to increment their respective upvote and downvote values
+    // They use AJAX POST calls to increase and decrease the values without 
+    // having to reload the page
+
+    function upvote(counter) {
+        id = $('#upvotes-' + counter).attr('userId');
+        $.post('/index/upvote/' + id, function (response) {
+            $('#upvotes-' + counter).text("Upvotes " + response.likeCount); //your counter on a page
+            //and update likes counter with response
+        })
+    }
+    function downvote(counter) {
+        id = $('#downvotes-' + counter).attr('userId');
+        $.post('/index/downvote/' + id, function (response) {
+            $('#downvotes-' + counter).text("Downvotes " + response.likeCount); //your counter on a page
+            //and update likes counter with response
+        })
+    }
+    function delete_user(counter) {
+        id = $('#delete-' + counter).attr('userId');
+        if (confirm("Are you sure you want to delete this user?")) {
+            console.log("Will delete this user " + id)
+
+            $.post('/index/delete/' + id, function (response) {
+                if (response.status == 200) {
+                    window.location.reload();
+                }
+                console.log(response)
+            })
+        }
+    }
+</script>
+</html>

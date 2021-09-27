@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="./favicons/favicon.ico">
+
+  <title>Employee Dashboard</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="./bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="./dashboard.css" rel="stylesheet">
+</head>
+
+<body>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">DMV Company</a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search Employee Name"
+      aria-label="Search">
+    <ul class="navbar-nav px-3">
+      <li class="nav-item text-nowrap">
+        <a class="nav-link" href="#">Sign out</a>
+      </li>
+    </ul>
+  </nav>
+  <div class="container-fluid">
+    <div class="row">
+      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+        <div class="sidebar-sticky">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">
+                <span data-feather="home"></span>
+                Dashboard <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file"></span>
+                Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="shopping-cart"></span>
+                Products
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="users"></span>
+                Customers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="bar-chart-2"></span>
+                Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="layers"></span>
+                Integrations
+              </a>
+            </li>
+          </ul>
+
+          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+            <span>Saved reports</span>
+            <a class="d-flex align-items-center text-muted" href="#">
+              <span data-feather="plus-circle"></span>
+            </a>
+          </h6>
+          <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Current month
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Last quarter
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Social engagement
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">
+                <span data-feather="file-text"></span>
+                Year-end sale
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">Employees at Company</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button class="btn btn-sm btn-warning">Export to Excel</button>
+            <button class="btn btn-sm btn-success" onclick="location.href = '/create'">Add New
+              Employee</button>
+          </div>
+          <!-- <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            This week
+          </button> -->
+        </div>
+      </div>
+      <div class="row-lg">
+        <div id="card-container">
+          <div id="employees-list">
+            <div class="card bio-card">
+              <div class="container">
+                <br>
+                <!-- counter is created to give each record a specific identifier -->
+                <% counter = 0 %>
+                <!-- Now we are going to traverse through the records and display them
+                  one at a time -->
+                <% if (employees.length > 0) { %>
+                <% employees.forEach( employee => { %>
+                <h3><%= employee.full_name%></h3>
+                <p>Title: <%= employee.title%></p>
+                <% if (employee.image) { %>
+                <img style="border-radius: 50%; max-height: 10em; max-width: 10em;" src="<%=employee.image %>" />
+                <% } %>
+                <p>Biography: <%= employee.bio%></p>
+                <p><button class="btn btn-success likes" id="upvotes-<%=counter%>" userId="<%= employee._id %>"
+                    onclick="upvote(<%=counter%>)">Upvote
+                    <%= employee.upvotes %></button>
+                  <!-- <button class="btn btn-danger dislikes" id="downvotes-<%=counter%>" userId="<%= employee._id %>"
+                    onclick="downvote(<%=counter%>)">Downvote <%= employee.downvotes %></button> -->
+                  <button class="btn btn-danger delete" id="delete-<%=counter%>" userId="<%= employee._id %>"
+                    onclick="delete_user(<%=counter%>)">Delete Record</button>
+                  <button class="btn btn-warning edit" id="edit-<%=counter%>" userId="<%= employee._id %>"
+                    onclick="edit_user(<%=counter%>)">Edit Record</button>
+                  <button class="btn btn-info expand" id="expand-<%=counter%>" userId="<%= employee._id %>"
+                    onclick="expand_user(<%=counter%>)">Expand Record</button>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Launch demo modal
+                  </button>
+                </p>
+                <hr>
+                <% counter = counter + 1 %>
+                <% }) %>
+                <% } else { %>
+                <p>There is no data to display...</p>
+                <%}%>
+              </div>
+          </div>
+      </div>
+    </div>
+    </div>
+    </main>
+    
+  </div>
+  <div id="display-modal">
+    
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript
+    ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+  <script src="./popper.min.js"></script>
+  <script src="./bootstrap.min.js"></script>
+
+
+  <!-- Graphs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  // Both of these are used to increment their respective upvote and downvote values
+  // They use AJAX POST calls to increase and decrease the values without 
+  // having to reload the page
+
+  function upvote(counter) {
+    id = $('#upvotes-' + counter).attr('userId');
+    $.post('/index/upvote/' + id, function (response) {
+      $('#upvotes-' + counter).text("Upvotes " + response.likeCount); //your counter on a page
+      //and update likes counter with response
+    })
+  }
+  function downvote(counter) {
+    id = $('#downvotes-' + counter).attr('userId');
+    $.post('/index/downvote/' + id, function (response) {
+      $('#downvotes-' + counter).text("Downvotes " + response.likeCount); //your counter on a page
+      //and update likes counter with response
+    })
+  }
+  function delete_user(counter) {
+    id = $('#delete-' + counter).attr('userId');
+    if (confirm("Are you sure you want to delete this user?")) {
+      console.log("Will delete this user " + id)
+
+      $.post('/index/delete/' + id, function (response) {
+        if (response.status == 200) {
+          window.location.reload();
+        }
+        console.log(response)
+      })
+    }
+  }
+  function edit_user(counter) {
+    id = $('#edit-' + counter).attr('userId');
+
+    $.post('/edit' + id, function (response) {
+      if (response.status == 200) {
+        console.log('moved to edit page');
+      }
+    })
+  }
+
+  function expand_user(counter) {
+    id = $('#expand-' + counter).attr('userId');
+    console.log('Id: ' + id);
+    $.post('/' + id, function (err, response) {
+      console.log(err);
+      if (response.status == 200) {
+        ret_value = response.employee_get;
+
+        console.log(ret_value);
+      }
+    })
+  }
+</script>
+</body>
+
+</html>
